@@ -1,5 +1,3 @@
-section '.data' data readable writable
-
 include 'resources.inc'
 
 ; variables

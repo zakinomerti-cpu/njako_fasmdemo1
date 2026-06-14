@@ -23,3 +23,6 @@ FORMAT_MESSAGE_FROM_SYSTEM		    = 00001000h
 LR_LOADFROMFILE     	            = 0010h
 IMAGE_BITMAP       		            = 0
 SRCCOPY     			            = 00CC0020h
+
+CS_HREDRAW 				            = 00000002h
+CS_VREDRAW 				            = 00000001h
