@@ -4,11 +4,23 @@ include 'resources.inc'
 wc 						rb 48
 msg 					rb 28
 hWndMain 				dd 0
-hBitMap					rb 8 ;2 hbitmap's
+
 ;
 ErrorMsgPointer			dd 0
 ErrorMsgID				dd 0
-ps						rb 64
+
+;wndproc
+hBitMap					rb 8 ;2 hbitmap's
 hdc						rb 8 ; 2 hdc's
+ps						rb 64
+
+GpGraphics              dd 0
+GpImage                 dd 0
+gdiplusToken            dd 0
+gdiplusStartupInput:
+    dd 1
+    dd 0
+    dd 0
+    dd 0
 
 include 'consts.inc'

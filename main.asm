@@ -37,7 +37,7 @@ Start:
 	.exit:
 		inl push 0, call dword [ExitProcess]
 
-include 'wndproc.inc'
+include 'wndproc_jpeg.inc'
 
 
 
