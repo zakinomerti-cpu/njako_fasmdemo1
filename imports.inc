@@ -22,6 +22,7 @@ import_block:
         DispatchMessage, 'DispatchMessageA', \
         PostQuitMessage, 'PostQuitMessage', \
         DefWindowProc, 'DefWindowProcA', \
+        InvalidateRect, 'InvalidateRect', \
         BeginPaint, 'BeginPaint', \
         EndPaint, 'EndPaint', \
         LoadImage, 'LoadImageA', \

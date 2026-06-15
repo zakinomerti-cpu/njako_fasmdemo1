@@ -2,6 +2,7 @@
 ; main window proc
 ; AUTHOR: xinitrix
 ;------------------------------------------------------------------------------
+
 wndproc:
     push ebp
     mov ebp, esp
@@ -15,6 +16,9 @@ wndproc:
 
     cmp eax, WM_PAINT
     je .wm_paint
+
+    cmp eax, WM_KEYDOWN
+    je .wm_keydown
 
     push dword [ebp+20] ; lparam lp
     push dword [ebp+16] ; wparam wp
@@ -38,8 +42,8 @@ wndproc:
         call dword [CreateCompatibleDC]
         mov dword [hdc+4], eax
 
-        push 600
-        push 425
+        push HEIGHT
+        push WIDTH
         push dword [hdc+0]
         call dword [CreateCompatibleBitmap]
         mov dword [hBitMap+0], eax
@@ -51,24 +55,39 @@ wndproc:
         push GpGraphics
         push dword [hdc+4]
         call dword [GdipCreateFromHDC]
-        call .ShowLastError_proc
 
-        push GpImage
-        push image_path
+        push GpImageBg
+        push bg_path
         call dword [GdipLoadImageFromFile]
-        call .ShowLastError_proc
+
+        push GpImageNjako
+        push njako_path
+        call dword [GdipLoadImageFromFile]
 
         push 0
         push 0
-        push [GpImage] ; скорее всего не будет работать
+        push [GpImageBg] ; скорее всего не будет работать
         push [GpGraphics] ; хз но оно заработало, думаю ошибка
         call dword [GdipDrawImage]
-        call .ShowLastError_proc
+
+        push 0
+        push 0
+        push [GpImageNjako] ; скорее всего не будет работать
+        push [GpGraphics] ; хз но оно заработало, думаю ошибка
+        call dword [GdipDrawImage]
+
+        push [GpGraphics]
+        call dword [GdipDeleteGraphics]
+
+        push [GpImageBg]
+        call dword [GdipDisposeImage]
+
+        push [GpImageNjako]
+        call dword [GdipDisposeImage]
 
         push dword [hdc+0]
         push dword [ebp+08]
         call dword [ReleaseDC]
-        call .ShowLastError_proc
 
 
 
@@ -87,8 +106,8 @@ wndproc:
         push 0
         push 0
         push dword [hdc+4]
-        push 600
-        push 425
+        push HEIGHT
+        push WIDTH
         push 0
         push 0
         push dword [hdc+0]
@@ -102,6 +121,73 @@ wndproc:
         xor eax, eax
         jmp .finish
 
+    .wm_keydown:
+        cmp dword [ebp+16], 'Y'
+        je .wm_keydown_y
+
+        cmp dword [ebp+16], 'N'
+        je .wm_keydown_n
+
+        xor eax, eax
+        jmp .finish
+
+        .wm_keydown_n:
+            jmp .wm_destroy
+        .wm_keydown_y:
+
+            ;;
+
+            push dword [ebp+8]
+            call dword [GetDC]
+            mov dword [hdc+0], eax
+
+            push HEIGHT
+            push WIDTH
+            push dword [hdc+0]
+            call dword [CreateCompatibleBitmap]
+            mov dword [hBitMap+0], eax
+
+            push dword [hBitMap+0]
+            push dword [hdc+4]
+            call dword [SelectObject]
+
+            ;;
+
+            push GpGraphics
+            push dword [hdc+4]
+            call dword [GdipCreateFromHDC]
+
+            push GpImageBg
+            push last_path
+            call dword [GdipLoadImageFromFile]
+
+            push 0
+            push 0
+            push [GpImageBg] ; скорее всего не будет работать
+            push [GpGraphics] ; хз но оно заработало, думаю ошибка
+            call dword [GdipDrawImage]
+
+            push [GpGraphics]
+            call dword [GdipDeleteGraphics]
+
+            push [GpImageBg]
+            call dword [GdipDisposeImage]
+
+            ;;
+
+            push dword [hdc+0]
+            push dword [ebp+8]
+            call dword [ReleaseDC]
+
+            push 1
+            push 0
+            push dword [ebp+8]
+            call dword [InvalidateRect]
+
+            ;;
+            xor eax, eax
+            jmp .finish
+
     .wm_destroy:
 
         push [gdiplusToken]
@@ -111,6 +197,7 @@ wndproc:
         call dword [PostQuitMessage]
         xor eax, eax
         jmp .finish
+
 
     .finish:
         mov esp, ebp
@@ -124,9 +211,4 @@ wndproc:
     .ShowLastError_proc:
         ShowLastError
         ret
-
-
-
-
-
 

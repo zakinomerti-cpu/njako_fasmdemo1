@@ -15,7 +15,8 @@ hdc						rb 8 ; 2 hdc's
 ps						rb 64
 
 GpGraphics              dd 0
-GpImage                 dd 0
+GpImageBg               dd 0
+GpImageNjako            dd 0
 gdiplusToken            dd 0
 gdiplusStartupInput:
     dd 1
