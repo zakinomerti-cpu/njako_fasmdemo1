@@ -29,6 +29,8 @@ wndproc:
 
     .wm_create:
 
+        ; идеи по тому, как улучшить функцию:
+        ; 1) создавать gdi+ obj в стеке
         push 0
         push gdiplusStartupInput
         push gdiplusToken
@@ -51,6 +53,7 @@ wndproc:
         push dword [hBitMap+0]
         push dword [hdc+4]
         call dword [SelectObject]
+        mov dword [hBitMap+4], eax
 
         push GpGraphics
         push dword [hdc+4]
@@ -64,17 +67,21 @@ wndproc:
         push njako_path
         call dword [GdipLoadImageFromFile]
 
+        push 768
+        push 1024
         push 0
         push 0
         push [GpImageBg] ; скорее всего не будет работать
         push [GpGraphics] ; хз но оно заработало, думаю ошибка
-        call dword [GdipDrawImage]
+        call dword [GdipDrawImageRectI]
 
+        push 768
+        push 1024
         push 0
         push 0
         push [GpImageNjako] ; скорее всего не будет работать
         push [GpGraphics] ; хз но оно заработало, думаю ошибка
-        call dword [GdipDrawImage]
+        call dword [GdipDrawImageRectI]
 
         push [GpGraphics]
         call dword [GdipDeleteGraphics]
@@ -141,6 +148,13 @@ wndproc:
             call dword [GetDC]
             mov dword [hdc+0], eax
 
+            push dword [hBitMap+4]
+            push dword [hdc+4]
+            call dword [SelectObject]
+
+            push dword [hBitMap+0]
+            call dword [DeleteObject]
+
             push HEIGHT
             push WIDTH
             push dword [hdc+0]
@@ -161,11 +175,13 @@ wndproc:
             push last_path
             call dword [GdipLoadImageFromFile]
 
+            push 768
+            push 1024
             push 0
             push 0
             push [GpImageBg] ; скорее всего не будет работать
             push [GpGraphics] ; хз но оно заработало, думаю ошибка
-            call dword [GdipDrawImage]
+            call dword [GdipDrawImageRectI]
 
             push [GpGraphics]
             call dword [GdipDeleteGraphics]

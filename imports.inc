@@ -36,12 +36,13 @@ import_block:
         SelectObject, 'SelectObject', \
         DeleteDC, 'DeleteDC', \
         BitBlt, 'BitBlt', \
+        DeleteObject, 'DeleteObject', \
         CreateCompatibleBitmap, 'CreateCompatibleBitmap'
 
     import_funcs gdiplus_iat, \
         GdipCreateFromHDC, 'GdipCreateFromHDC', \
         GdipLoadImageFromFile, 'GdipLoadImageFromFile', \
-        GdipDrawImage, 'GdipDrawImage', \
+        GdipDrawImageRectI, 'GdipDrawImageRectI', \
         GdipDeleteGraphics, 'GdipDeleteGraphics', \
         GdipDisposeImage, 'GdipDisposeImage', \
         GdiplusStartup, 'GdiplusStartup', \
