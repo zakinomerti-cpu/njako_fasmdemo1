@@ -11,7 +11,9 @@ import_block:
         SetLastError, 'SetLastError', \
         GetLastError, 'GetLastError', \
         FormatMessage, 'FormatMessageA', \
-        LocalFree, 'LocalFree'
+        LocalFree, 'LocalFree', \
+        LoadLibraryA, 'LoadLibraryA', \
+        GetProcAddress, 'GetProcAddress'
 
     import_funcs user_iat, \
         MessageBoxA, 'MessageBoxA', \
@@ -28,7 +30,8 @@ import_block:
         LoadImage, 'LoadImageA', \
         LoadCursor, 'LoadCursorA', \
         ReleaseDC, 'ReleaseDC', \
-        GetDC, 'GetDC'
+        GetDC, 'GetDC', \
+        SetTimer, 'SetTimer'
 
     import_funcs gdi_iat, \
         TextOut, 'TextOutA', \
@@ -37,7 +40,8 @@ import_block:
         DeleteDC, 'DeleteDC', \
         BitBlt, 'BitBlt', \
         DeleteObject, 'DeleteObject', \
-        CreateCompatibleBitmap, 'CreateCompatibleBitmap'
+        CreateCompatibleBitmap, 'CreateCompatibleBitmap', \
+        CreateDIBSection, 'CreateDIBSection'
 
     import_funcs gdiplus_iat, \
         GdipCreateFromHDC, 'GdipCreateFromHDC', \

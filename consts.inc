@@ -17,6 +17,7 @@ WM_DESTROY                          = 0002h
 WM_PAINT                            = 000Fh
 WM_CREATE                           = 0001h
 WM_KEYDOWN		                    = 0100h
+WM_TIMER             				= 0113h
 
 FORMAT_MESSAGE_ALLOCATE_BUFFER 	    = 00000100h
 FORMAT_MESSAGE_FROM_SYSTEM		    = 00001000h
